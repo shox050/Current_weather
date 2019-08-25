@@ -19,22 +19,34 @@ class NetworkService {
     
     private func request(_ endpoint: Endpoint,
                          method: HTTPMethod = .get,
-                         parameters: [String:Any]? = nil,
-                         encoding: ParameterEncoding,
+                         parameters: [String:Any]?,
+//                         encoding: ParameterEncoding = URLEncoding.default,
                          _ completion: @escaping (DataResponse<Data>) -> Void) {
         
         AF.request(endpoint,
                    method: method,
-                   parameters: parameters,
-                   encoding: encoding)
+                   parameters: parameters)
             .validate()
             .responseData(queue: executionQueue) { response in
                 
-                completion(response)
+                print("Request ", response.request)
+                print("Response ", response)
         }
     }
     
-//    private func getCities(inRegion region: MKCoordinateRegion, _ completion: @escaping (Result)) {
-//
-//    }
+    func getCities(inBoundingBox coordinate: BoundingBoxCoordinate, _ completion: @escaping (Result<WeatherModel, Error>) -> Void) {
+        
+        let bboxCoordinate = "\(coordinate.bottomLeftAngel.longitude),\(coordinate.bottomLeftAngel.latitude),\(coordinate.rightTopAngel.longitude),\(coordinate.rightTopAngel.latitude),\(coordinate.zoom)"
+        
+        
+        let requestParameters = RequestParameters(boundingBoxCoordinate: bboxCoordinate)
+        let parametersEncoded = dictionaryEncoder.encode(entity: requestParameters)
+        
+        print("Parameters: ", parametersEncoded)
+
+        request(.citiesInRectangleZone, parameters: parametersEncoded) { response in
+            print(response)
+        }
+        
+    }
 }

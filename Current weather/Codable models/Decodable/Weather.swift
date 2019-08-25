@@ -8,13 +8,22 @@
 
 import Foundation
 
+struct WeatherWrapper: Decodable {
+    let cod: Int
+    let calculateTime: Float
+    let count: Int
+    let list: [WeatherModel]
+}
+
 struct WeatherModel: Decodable {
+    let cityId: Int
     let coordinate: Coordinate
     let weather: Weather
     
     private enum CoddingKeys: String, CodingKey {
+        case cityId = "id"
         case coordinate = "coord"
-        case weaher
+        case weather
     }
     
     struct Coordinate: Decodable {
@@ -36,7 +45,6 @@ struct WeatherModel: Decodable {
             case weatherConditionId = "id"
             case weatherParameters = "main"
             case conditionIcon = "icon"
-            
         }
     }
 }

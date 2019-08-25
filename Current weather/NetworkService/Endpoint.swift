@@ -10,21 +10,19 @@ import Foundation
 import Alamofire
 
 enum Endpoint: URLRequestConvertible {
-
     static let baseUrl = "http://api.openweathermap.org/data/2.5"
     
-    case citisInCycle
+    case citiesInRectangleZone
     
     var path: String {
         switch self {
-        case .citisInCycle:
-            return "find"
+        case .citiesInRectangleZone:
+            return "box/city"
         }
     }
 
     func asURLRequest() throws -> URLRequest {
         let baseUrl = try Endpoint.baseUrl.asURL()
-        
         let url = baseUrl.appendingPathComponent(path)
         
         return URLRequest(url: url)

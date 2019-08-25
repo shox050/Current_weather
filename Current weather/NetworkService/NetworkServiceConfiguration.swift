@@ -9,5 +9,5 @@
 import Foundation
 
 struct NetworkServiceConfiguration {
-    let apiKey = "7f1b642c6c49d5f5ba26455ec901dd0a"
+    static let apiKey = "7f1b642c6c49d5f5ba26455ec901dd0a"
 }
