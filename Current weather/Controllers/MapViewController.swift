@@ -13,7 +13,6 @@ class MapViewController: UIViewController {
     
     @IBOutlet private weak var mapView: MKMapView!
     
-
     
     let mapViewModel = MapViewModel()
 
@@ -23,7 +22,14 @@ class MapViewController: UIViewController {
         
         setInitialRegion()
         
-//        let coordinateMSK = CLLocationCoordinate2D(latitude: 55.75222, longitude: 37.61556)
+       
+
+        
+        let coordinateMSK = CLLocationCoordinate2D(latitude: 55.75222, longitude: 37.61556)
+        
+         let weatherAnnotation = WeatherAnnotation(coordinate: coordinateMSK, title: "wow Moscow", subtitle: "Hello")
+        
+        mapView.addAnnotation(weatherAnnotation)
 //
 //        let pointAnnotation = WeatherPinAnnotation()
 //        pointAnnotation.title = "Moscow99"
@@ -63,9 +69,29 @@ extension MapViewController: MKMapViewDelegate {
 //        print("New region: ", mapView.region)
 //    }
     
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        <#code#>
-//    }
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        let identifier = "weatherViewAnnotation"
+        
+//        let weatherView = WeatherView(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
+//        let image = getImage(with: weatherView)
+//        weatherView.ivImage.image = image
+//        weatherView.lTemperatureInfo.text = "MSK, 29"
+        
+        
+        
+        guard let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) else {
+            let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView.image = UIImage(named: "sun")
+            annotationView.canShowCallout = true
+            print("HERE")
+            return annotationView
+        }
+        
+        annotationView.annotation = annotation
+        
+        return annotationView
+    }
 }
 
 // TODO: - need delete this method before release
@@ -75,5 +101,16 @@ extension MapViewController {
         let initialDistance: CLLocationDistance = 40000
         let initialRegion = MKCoordinateRegion(center: initialLocation.coordinate, latitudinalMeters: initialDistance, longitudinalMeters: initialDistance)
         mapView.setRegion(initialRegion, animated: true)
+    }
+    
+    func getImage(with view: UIView) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0)
+        defer { UIGraphicsEndImageContext() }
+        if let context = UIGraphicsGetCurrentContext() {
+            view.layer.render(in: context)
+            let image = UIGraphicsGetImageFromCurrentImageContext()
+            return image
+        }
+        return nil
     }
 }

@@ -10,9 +10,9 @@ import UIKit
 
 class WeatherView: UIView {
     
-    @IBOutlet private weak var contentView: UIView!
-    @IBOutlet private weak var ivImage: UIImageView!
-    @IBOutlet private weak var lTemperatureInfo: UILabel!
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var ivImage: UIImageView!
+    @IBOutlet weak var lTemperatureInfo: UILabel!
     
     
     override init(frame: CGRect) {
@@ -25,7 +25,7 @@ class WeatherView: UIView {
         commonInit()
     }
     
-    private func commonInit() {
+    func commonInit() {
         Bundle.main.loadNibNamed("WeatherView", owner: self, options: nil)
         addSubview(contentView)
         contentView.frame = self.bounds
