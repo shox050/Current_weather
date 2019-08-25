@@ -41,7 +41,7 @@ class MapViewController: UIViewController {
 //        mapView.addAnnotation(weatherAnnotation)
         
         ///////// -------------
-        let bbox = mapViewModel.createBbox(mapRect: mapView.visibleMapRect, zoom: 20)
+        let bbox = mapViewModel.createBbox(mapRect: mapView.visibleMapRect, zoom: 10)
         mapViewModel.networkService.getCities(inBoundingBox: bbox) { [weak self] response in
             print("Response ", response)
 
