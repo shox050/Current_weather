@@ -31,6 +31,8 @@ class NetworkService {
                 
                 print("Request ", response.request)
                 print("Response ", response)
+                
+                completion(response)
         }
     }
     
@@ -46,6 +48,20 @@ class NetworkService {
 
         request(.citiesInRectangleZone, parameters: parametersEncoded) { response in
             print(response)
+            
+            guard let responseData = response.data else {
+                print("Response have error: ", response.error?.localizedDescription)
+                return
+            }
+                        
+            let jsonDecoder = JSONDecoder()
+            
+            do {
+                let weatherWrapper = try jsonDecoder.decode(WeatherWrapper.self, from: responseData)
+                print("weatherWrapper decode: ", weatherWrapper)
+            } catch let error {
+                print("Error decode: ", error)
+            }
         }
         
     }

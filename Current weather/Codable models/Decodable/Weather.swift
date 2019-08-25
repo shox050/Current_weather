@@ -13,38 +13,45 @@ struct WeatherWrapper: Decodable {
     let calculateTime: Float
     let count: Int
     let list: [WeatherModel]
+    
+    private enum CodingKeys: String, CodingKey {
+        case cod
+        case calculateTime = "calctime"
+        case count = "cnt"
+        case list
+    }
 }
 
 struct WeatherModel: Decodable {
     let cityId: Int
     let coordinate: Coordinate
-    let weather: Weather
+    let weather: [Weather]
     
-    private enum CoddingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case cityId = "id"
         case coordinate = "coord"
         case weather
     }
+}
+
+struct Coordinate: Decodable {
+    let longitude: Double
+    let latitude: Double
     
-    struct Coordinate: Decodable {
-        let longitude: Double
-        let latitude: Double
-        
-        enum CodingKeys: String, CodingKey {
-            case longitude = "lon"
-            case latitude = "lat"
-        }
+    private enum CodingKeys: String, CodingKey {
+        case longitude = "Lon"
+        case latitude = "Lat"
     }
+}
+
+struct Weather: Decodable {
+    let weatherConditionId: Int
+    let weatherParameters: String
+    let weatherIcon: String
     
-    struct Weather: Decodable {
-        let weatherConditionId: Int
-        let weatherParameters: String
-        let conditionIcon: String
-        
-        enum CodingKeys: String, CodingKey {
-            case weatherConditionId = "id"
-            case weatherParameters = "main"
-            case conditionIcon = "icon"
-        }
+    private enum CodingKeys: String, CodingKey {
+        case weatherConditionId = "id"
+        case weatherParameters = "main"
+        case weatherIcon = "icon"
     }
 }
