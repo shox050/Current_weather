@@ -17,8 +17,8 @@ class MapViewModel {
     
 
     func createBbox(mapRect: MKMapRect, zoom: Int) -> BoundingBoxCoordinate {
-        let bottomLeftAngle = getCoordinateFromMapRectanglePoint(mapRect.maxX, mapRect.origin.y)
-        let topRightAngle = getCoordinateFromMapRectanglePoint(mapRect.origin.x, mapRect.maxY)
+        let topRightAngle = getCoordinateFromMapRectanglePoint(mapRect.maxX, mapRect.origin.y) 
+        let bottomLeftAngle = getCoordinateFromMapRectanglePoint(mapRect.origin.x, mapRect.maxY)
         
         return BoundingBoxCoordinate(bottomLeftAngle: bottomLeftAngle, topRightAngle: topRightAngle, zoom: zoom)
     }

@@ -38,7 +38,7 @@ class NetworkService {
     
     func getCities(inBoundingBox coordinate: BoundingBoxCoordinate, _ completion: @escaping (Result<WeatherWrapper, Error>) -> Void) {
         
-        let bboxCoordinate = "\(coordinate.bottomLeftAngle.longitude),\(coordinate.bottomLeftAngle.latitude),\(coordinate.bottomLeftAngle.longitude),\(coordinate.topRightAngle.latitude),\(coordinate.zoom)"
+        let bboxCoordinate = "\(coordinate.bottomLeftAngle.longitude),\(coordinate.bottomLeftAngle.latitude),\(coordinate.topRightAngle.longitude),\(coordinate.topRightAngle.latitude),\(coordinate.zoom)"
         
         
         let requestParameters = RequestParameters(boundingBoxCoordinate: bboxCoordinate)

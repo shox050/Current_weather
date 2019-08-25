@@ -41,18 +41,18 @@ class MapViewController: UIViewController {
 //        mapView.addAnnotation(weatherAnnotation)
         
         ///////// -------------
-//        let bbox = mapViewModel.createBbox(mapRect: mapView.visibleMapRect, zoom: 10)
-//        mapViewModel.networkService.getCities(inBoundingBox: bbox) { [weak self] response in
-//            print("Response ", response)
-//
-//            switch response {
-//            case .success(let weatherWrapper):
-//                print("Success, get weatherWrapper")
-//                self?.mapViewModel.weatherInformation = weatherWrapper.weatherInformation
-//            case .failure(let error):
-//                print("Failure: ", error)
-//            }
-//        }
+        let bbox = mapViewModel.createBbox(mapRect: mapView.visibleMapRect, zoom: 20)
+        mapViewModel.networkService.getCities(inBoundingBox: bbox) { [weak self] response in
+            print("Response ", response)
+
+            switch response {
+            case .success(let weatherWrapper):
+                print("Success, get weatherWrapper")
+                self?.mapViewModel.weatherInformation = weatherWrapper.weatherInformation
+            case .failure(let error):
+                print("Failure: ", error)
+            }
+        }
     }
 }
 
@@ -63,9 +63,9 @@ extension MapViewController: MKMapViewDelegate {
 //        print("New region: ", mapView.region)
 //    }
     
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        <#code#>
-    }
+//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//        <#code#>
+//    }
 }
 
 // TODO: - need delete this method before release

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WeatherView" customModule="Current_weather" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="5hH-fe-MYz" id="VHI-8p-Pwj"/>
+                <outlet property="ivImage" destination="72U-KZ-UsK" id="e2M-8E-RJb"/>
+                <outlet property="lTemperatureInfo" destination="aHG-wO-qdJ" id="ltF-q5-acI"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="5hH-fe-MYz">
+            <rect key="frame" x="0.0" y="0.0" width="86" height="82"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="72U-KZ-UsK">
+                    <rect key="frame" x="0.0" y="0.0" width="86" height="64.5"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aHG-wO-qdJ">
+                    <rect key="frame" x="0.0" y="67.5" width="86" height="14.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="aHG-wO-qdJ" firstAttribute="leading" secondItem="5hH-fe-MYz" secondAttribute="leading" id="7kZ-Jp-9iH"/>
+                <constraint firstItem="72U-KZ-UsK" firstAttribute="trailing" secondItem="RGk-81-Em8" secondAttribute="trailing" id="P4y-O5-CgJ"/>
+                <constraint firstItem="72U-KZ-UsK" firstAttribute="top" secondItem="5hH-fe-MYz" secondAttribute="top" id="U6z-tB-G17"/>
+                <constraint firstItem="72U-KZ-UsK" firstAttribute="leading" secondItem="RGk-81-Em8" secondAttribute="leading" id="hD7-XX-mWz"/>
+                <constraint firstItem="aHG-wO-qdJ" firstAttribute="top" secondItem="72U-KZ-UsK" secondAttribute="bottom" constant="3" id="jUV-4U-7zJ"/>
+                <constraint firstAttribute="trailing" secondItem="aHG-wO-qdJ" secondAttribute="trailing" id="myI-y3-PzN"/>
+                <constraint firstAttribute="bottom" secondItem="aHG-wO-qdJ" secondAttribute="bottom" id="ykx-h4-t38"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="RGk-81-Em8"/>
+            <point key="canvasLocation" x="-213.04347826086959" y="-176.11607142857142"/>
+        </view>
+    </objects>
+</document>
