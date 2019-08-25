@@ -12,17 +12,17 @@ struct WeatherWrapper: Decodable {
     let cod: Int
     let calculateTime: Float
     let count: Int
-    let list: [WeatherModel]
+    let weatherInformation: [WeatherInformation]
     
     private enum CodingKeys: String, CodingKey {
         case cod
         case calculateTime = "calctime"
         case count = "cnt"
-        case list
+        case weatherInformation = "list"
     }
 }
 
-struct WeatherModel: Decodable {
+struct WeatherInformation: Decodable {
     let cityId: Int
     let coordinate: Coordinate
     let weather: [Weather]

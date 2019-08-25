@@ -36,9 +36,9 @@ class NetworkService {
         }
     }
     
-    func getCities(inBoundingBox coordinate: BoundingBoxCoordinate, _ completion: @escaping (Result<WeatherModel, Error>) -> Void) {
+    func getCities(inBoundingBox coordinate: BoundingBoxCoordinate, _ completion: @escaping (Result<WeatherWrapper, Error>) -> Void) {
         
-        let bboxCoordinate = "\(coordinate.bottomLeftAngel.longitude),\(coordinate.bottomLeftAngel.latitude),\(coordinate.rightTopAngel.longitude),\(coordinate.rightTopAngel.latitude),\(coordinate.zoom)"
+        let bboxCoordinate = "\(coordinate.bottomLeftAngle.longitude),\(coordinate.bottomLeftAngle.latitude),\(coordinate.bottomLeftAngle.longitude),\(coordinate.topRightAngle.latitude),\(coordinate.zoom)"
         
         
         let requestParameters = RequestParameters(boundingBoxCoordinate: bboxCoordinate)
@@ -50,17 +50,19 @@ class NetworkService {
             print(response)
             
             guard let responseData = response.data else {
-                print("Response have error: ", response.error?.localizedDescription)
+                print("Response have error: ", response.error)
                 return
             }
-                        
+            
             let jsonDecoder = JSONDecoder()
             
             do {
                 let weatherWrapper = try jsonDecoder.decode(WeatherWrapper.self, from: responseData)
                 print("weatherWrapper decode: ", weatherWrapper)
+                completion(.success(weatherWrapper))
             } catch let error {
                 print("Error decode: ", error)
+                completion(.failure(error))
             }
         }
         

@@ -20,6 +20,7 @@
 		E71C7447231155960064610D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E71C7445231155960064610D /* LaunchScreen.storyboard */; };
 		E71C745423115FB30064610D /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71C745323115FB30064610D /* NetworkService.swift */; };
 		E7F12F5F23127CAD00D51931 /* BoundingBoxCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F12F5E23127CAD00D51931 /* BoundingBoxCoordinate.swift */; };
+		E7F12F612312CC4300D51931 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F12F602312CC4300D51931 /* MapViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		E71C7448231155960064610D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E71C745323115FB30064610D /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		E7F12F5E23127CAD00D51931 /* BoundingBoxCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundingBoxCoordinate.swift; sourceTree = "<group>"; };
+		E7F12F602312CC4300D51931 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 		E71C7451231155FE0064610D /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				E7F12F602312CC4300D51931 /* MapViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E704BC382311A21E000215E2 /* Weather.swift in Sources */,
+				E7F12F612312CC4300D51931 /* MapViewModel.swift in Sources */,
 				E71C743F231155940064610D /* MapViewController.swift in Sources */,
 				E704BC2E2311646D000215E2 /* NetworkServiceConfiguration.swift in Sources */,
 				E7F12F5F23127CAD00D51931 /* BoundingBoxCoordinate.swift in Sources */,

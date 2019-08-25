@@ -13,54 +13,47 @@ class MapViewController: UIViewController {
     
     @IBOutlet private weak var mapView: MKMapView!
     
-    let initialLocation = CLLocation(latitude: 55.75222, longitude: 37.61556)
-    let initialDistance: CLLocationDistance = 40000
+
     
-    let networkService = NetworkService()
-    
+    let mapViewModel = MapViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
         
-        print(mapView.visibleMapRect)
+        setInitialRegion()
         
-        let initialRegion = MKCoordinateRegion(center: initialLocation.coordinate, latitudinalMeters: initialDistance, longitudinalMeters: initialDistance)
-        
-        mapView.setRegion(initialRegion, animated: true)
-        
-        let mRect = mapView.visibleMapRect
-        
-        let getNECoordinate = getCoordinateFromMapRectanglePoint(mRect.maxX, mRect.origin.y)
-        let getSWCoordinate = getCoordinateFromMapRectanglePoint(mRect.origin.x, mRect.maxY)
-        
-        let bottomLeft = getSWCoordinate
-        let topRight = getNECoordinate
-        
-        print("bottomLeft.longitude ", bottomLeft.longitude)
-        print("bottomLeft.latitude ", bottomLeft.latitude)
-        print("topRight.longitude ", topRight.longitude)
-        print("topRight.latitude ", topRight.latitude)
-        
-        let bbox = BoundingBoxCoordinate(bottomLeftAngel: bottomLeft, rightTopAngel: topRight, zoom: 10)
-
-        networkService.getCities(inBoundingBox: bbox) { response in
-            print("Response ", response)
-        }
-        
+//        let coordinateMSK = CLLocationCoordinate2D(latitude: 55.75222, longitude: 37.61556)
 //
-//        print(mapView.topLeftCoordinate())
-//        print(mapView.bottomRightCoordinate())
+//        let pointAnnotation = WeatherPinAnnotation()
+//        pointAnnotation.title = "Moscow99"
+//        pointAnnotation.subtitle = "RUSSIA"
+//        pointAnnotation.coordinate = coordinateMSK
+//        pointAnnotation.pinCustomImageName = "sun"
+//
+//        let pointView = MKPinAnnotationView(annotation: pointAnnotation, reuseIdentifier: "pin")
+//
+//        mapView.addAnnotation(pointView.annotation!)
         
+//        let weatherAnnotation = WeatherPinAnnotation(title: "Moscow", subtitle: "Russia", coordinate: coordinateMSK)
         
-
+//        print("mapView.addAnnotation")
+//        mapView.addAnnotation(weatherAnnotation)
+        
+        ///////// -------------
+//        let bbox = mapViewModel.createBbox(mapRect: mapView.visibleMapRect, zoom: 10)
+//        mapViewModel.networkService.getCities(inBoundingBox: bbox) { [weak self] response in
+//            print("Response ", response)
+//
+//            switch response {
+//            case .success(let weatherWrapper):
+//                print("Success, get weatherWrapper")
+//                self?.mapViewModel.weatherInformation = weatherWrapper.weatherInformation
+//            case .failure(let error):
+//                print("Failure: ", error)
+//            }
+//        }
     }
-    
-    func getCoordinateFromMapRectanglePoint(_ x: Double, _ y: Double) -> CLLocationCoordinate2D {
-        let swMapPoint = MKMapPoint(x: x, y: y)
-        return swMapPoint.coordinate
-    }
-    
 }
 
 
@@ -69,14 +62,18 @@ extension MapViewController: MKMapViewDelegate {
 //    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
 //        print("New region: ", mapView.region)
 //    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        <#code#>
+    }
 }
 
-//extension MKMapView {
-//    func topLeftCoordinate() -> CLLocationCoordinate2D {
-//        return convert(.zero, toCoordinateFrom: self)
-//    }
-//
-//    func bottomRightCoordinate() -> CLLocationCoordinate2D {
-//        return convert(CGPoint(x: frame.width, y: frame.height), toCoordinateFrom: self)
-//    }
-//}
+// TODO: - need delete this method before release
+extension MapViewController {
+    func setInitialRegion() {
+        let initialLocation = CLLocation(latitude: 55.75222, longitude: 37.61556)
+        let initialDistance: CLLocationDistance = 40000
+        let initialRegion = MKCoordinateRegion(center: initialLocation.coordinate, latitudinalMeters: initialDistance, longitudinalMeters: initialDistance)
+        mapView.setRegion(initialRegion, animated: true)
+    }
+}
