@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 
 struct BoundingBoxCoordinate {
-    let bottomLeftAngel: CLLocationCoordinate2D
-    let rightTopAngel: CLLocationCoordinate2D
+    let bottomLeftAngle: CLLocationCoordinate2D
+    let topRightAngle: CLLocationCoordinate2D
     let zoom: Int
 }

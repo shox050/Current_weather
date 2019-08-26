@@ -12,23 +12,27 @@ struct WeatherWrapper: Decodable {
     let cod: Int
     let calculateTime: Float
     let count: Int
-    let list: [WeatherModel]
+    let weatherInformation: [WeatherInformation]
     
     private enum CodingKeys: String, CodingKey {
         case cod
         case calculateTime = "calctime"
         case count = "cnt"
-        case list
+        case weatherInformation = "list"
     }
 }
 
-struct WeatherModel: Decodable {
+struct WeatherInformation: Decodable {
     let cityId: Int
+    let name: String
+    let weatherParameters: WeatherParameters
     let coordinate: Coordinate
     let weather: [Weather]
     
     private enum CodingKeys: String, CodingKey {
         case cityId = "id"
+        case name
+        case weatherParameters = "main"
         case coordinate = "coord"
         case weather
     }
@@ -46,12 +50,20 @@ struct Coordinate: Decodable {
 
 struct Weather: Decodable {
     let weatherConditionId: Int
-    let weatherParameters: String
     let weatherIcon: String
+    let description: String
     
     private enum CodingKeys: String, CodingKey {
         case weatherConditionId = "id"
-        case weatherParameters = "main"
         case weatherIcon = "icon"
+        case description
+    }
+}
+
+struct WeatherParameters: Decodable {
+    let temperature: Float
+
+    private enum CodingKeys: String, CodingKey {
+        case temperature = "temp"
     }
 }

@@ -19,7 +19,12 @@
 		E71C7444231155960064610D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E71C7443231155960064610D /* Assets.xcassets */; };
 		E71C7447231155960064610D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E71C7445231155960064610D /* LaunchScreen.storyboard */; };
 		E71C745423115FB30064610D /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71C745323115FB30064610D /* NetworkService.swift */; };
+		E7DB72982313DF50002C2C11 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7DB72972313DF50002C2C11 /* Constants.swift */; };
 		E7F12F5F23127CAD00D51931 /* BoundingBoxCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F12F5E23127CAD00D51931 /* BoundingBoxCoordinate.swift */; };
+		E7F12F612312CC4300D51931 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F12F602312CC4300D51931 /* MapViewModel.swift */; };
+		E7F12F662312FA5900D51931 /* WeatherView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E7F12F652312FA5900D51931 /* WeatherView.xib */; };
+		E7F12F682312FC4400D51931 /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F12F672312FC4400D51931 /* WeatherView.swift */; };
+		E7F12F6B231315C900D51931 /* WeatherAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F12F6A231315C900D51931 /* WeatherAnnotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,7 +44,12 @@
 		E71C7446231155960064610D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E71C7448231155960064610D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E71C745323115FB30064610D /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		E7DB72972313DF50002C2C11 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E7F12F5E23127CAD00D51931 /* BoundingBoxCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoundingBoxCoordinate.swift; sourceTree = "<group>"; };
+		E7F12F602312CC4300D51931 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		E7F12F652312FA5900D51931 /* WeatherView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeatherView.xib; sourceTree = "<group>"; };
+		E7F12F672312FC4400D51931 /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
+		E7F12F6A231315C900D51931 /* WeatherAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAnnotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +135,7 @@
 		E71C743B231155940064610D /* Current weather */ = {
 			isa = PBXGroup;
 			children = (
+				E7DB72962313DF41002C2C11 /* Source */,
 				E704BC3223119AD9000215E2 /* DictionaryEncoder */,
 				E704BC2F23118FBD000215E2 /* Codable models */,
 				E7F12F5D23127C7600D51931 /* Models */,
@@ -132,6 +143,8 @@
 				E71C7451231155FE0064610D /* ViewModels */,
 				E71C745223115F9D0064610D /* NetworkService */,
 				E71C7450231155DB0064610D /* Storyboards */,
+				E7F12F692312FC4B00D51931 /* UI Models */,
+				E7F12F642312FA2D00D51931 /* Xib view */,
 				E71C744E231155C30064610D /* Application */,
 				E71C7443231155960064610D /* Assets.xcassets */,
 				E71C7448231155960064610D /* Info.plist */,
@@ -167,6 +180,7 @@
 		E71C7451231155FE0064610D /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				E7F12F602312CC4300D51931 /* MapViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -181,12 +195,37 @@
 			path = NetworkService;
 			sourceTree = "<group>";
 		};
+		E7DB72962313DF41002C2C11 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				E7DB72972313DF50002C2C11 /* Constants.swift */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
 		E7F12F5D23127C7600D51931 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				E7F12F5E23127CAD00D51931 /* BoundingBoxCoordinate.swift */,
+				E7F12F6A231315C900D51931 /* WeatherAnnotation.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		E7F12F642312FA2D00D51931 /* Xib view */ = {
+			isa = PBXGroup;
+			children = (
+				E7F12F652312FA5900D51931 /* WeatherView.xib */,
+			);
+			path = "Xib view";
+			sourceTree = "<group>";
+		};
+		E7F12F692312FC4B00D51931 /* UI Models */ = {
+			isa = PBXGroup;
+			children = (
+				E7F12F672312FC4400D51931 /* WeatherView.swift */,
+			);
+			path = "UI Models";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -252,6 +291,7 @@
 				E71C7447231155960064610D /* LaunchScreen.storyboard in Resources */,
 				E71C7444231155960064610D /* Assets.xcassets in Resources */,
 				E71C7442231155940064610D /* Main.storyboard in Resources */,
+				E7F12F662312FA5900D51931 /* WeatherView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,9 +345,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				E704BC382311A21E000215E2 /* Weather.swift in Sources */,
+				E7F12F612312CC4300D51931 /* MapViewModel.swift in Sources */,
 				E71C743F231155940064610D /* MapViewController.swift in Sources */,
 				E704BC2E2311646D000215E2 /* NetworkServiceConfiguration.swift in Sources */,
 				E7F12F5F23127CAD00D51931 /* BoundingBoxCoordinate.swift in Sources */,
+				E7F12F6B231315C900D51931 /* WeatherAnnotation.swift in Sources */,
+				E7F12F682312FC4400D51931 /* WeatherView.swift in Sources */,
+				E7DB72982313DF50002C2C11 /* Constants.swift in Sources */,
 				E71C745423115FB30064610D /* NetworkService.swift in Sources */,
 				E704BC2C2311615A000215E2 /* Endpoint.swift in Sources */,
 				E71C743D231155940064610D /* AppDelegate.swift in Sources */,

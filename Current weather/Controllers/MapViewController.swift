@@ -13,70 +13,79 @@ class MapViewController: UIViewController {
     
     @IBOutlet private weak var mapView: MKMapView!
     
-    let initialLocation = CLLocation(latitude: 55.75222, longitude: 37.61556)
-    let initialDistance: CLLocationDistance = 40000
-    
-    let networkService = NetworkService()
-    
+    let constants = Constants()
+    let mapViewModel = MapViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        mapView.delegate = self
         
-        print(mapView.visibleMapRect)
+        setInitialRegion()
         
-        let initialRegion = MKCoordinateRegion(center: initialLocation.coordinate, latitudinalMeters: initialDistance, longitudinalMeters: initialDistance)
         
-        mapView.setRegion(initialRegion, animated: true)
-        
-        let mRect = mapView.visibleMapRect
-        
-        let getNECoordinate = getCoordinateFromMapRectanglePoint(mRect.maxX, mRect.origin.y)
-        let getSWCoordinate = getCoordinateFromMapRectanglePoint(mRect.origin.x, mRect.maxY)
-        
-        let bottomLeft = getSWCoordinate
-        let topRight = getNECoordinate
-        
-        print("bottomLeft.longitude ", bottomLeft.longitude)
-        print("bottomLeft.latitude ", bottomLeft.latitude)
-        print("topRight.longitude ", topRight.longitude)
-        print("topRight.latitude ", topRight.latitude)
-        
-        let bbox = BoundingBoxCoordinate(bottomLeftAngel: bottomLeft, rightTopAngel: topRight, zoom: 10)
-
-        networkService.getCities(inBoundingBox: bbox) { response in
-            print("Response ", response)
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let this = self else { return }
+            
+            this.mapViewModel.getCities(forMapRect: this.mapView.visibleMapRect, zoom: 10) { weatherAnnotations in
+                this.mapView.addAnnotations(weatherAnnotations)
+                
+                DispatchQueue.main.sync {
+                    this.mapView.showAnnotations(this.mapView.annotations, animated: true)
+                }
+                
+            }
         }
-        
-//
-//        print(mapView.topLeftCoordinate())
-//        print(mapView.bottomRightCoordinate())
-        
-        
-
     }
-    
-    func getCoordinateFromMapRectanglePoint(_ x: Double, _ y: Double) -> CLLocationCoordinate2D {
-        let swMapPoint = MKMapPoint(x: x, y: y)
-        return swMapPoint.coordinate
-    }
-    
 }
 
 
 // MARK: - MKMapViewDelegate
 extension MapViewController: MKMapViewDelegate {
-//    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-//        print("New region: ", mapView.region)
-//    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard let annotation = annotation as? WeatherAnnotation else { return nil }
+        
+        let identifier = constants.weatherViewIdentifier
+        
+        var view: MKMarkerAnnotationView
+        
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView {
+            dequeuedView.annotation = annotation
+            view = dequeuedView
+        } else {
+            view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            view.canShowCallout = false
+//            view.calloutOffset = CGPoint(x: -5, y: 5)
+//            view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        }
+        
+        return view
+    }
+    
+    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        
+    }
+    
+    
 }
 
-//extension MKMapView {
-//    func topLeftCoordinate() -> CLLocationCoordinate2D {
-//        return convert(.zero, toCoordinateFrom: self)
+extension MapViewController {
+    private func setInitialRegion() {
+        let initialLocation = CLLocation(latitude: 55.75222, longitude: 37.61556)
+        let initialDistance: CLLocationDistance = 40000
+        let initialRegion = MKCoordinateRegion(center: initialLocation.coordinate, latitudinalMeters: initialDistance, longitudinalMeters: initialDistance)
+        mapView.setRegion(initialRegion, animated: true)
+    }
+    
+
+    
+//    private func getImage(with view: UIView) -> UIImage? {
+//        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0)
+//        defer { UIGraphicsEndImageContext() }
+//        if let context = UIGraphicsGetCurrentContext() {
+//            view.layer.render(in: context)
+//            let image = UIGraphicsGetImageFromCurrentImageContext()
+//            return image
+//        }
+//        return nil
 //    }
-//
-//    func bottomRightCoordinate() -> CLLocationCoordinate2D {
-//        return convert(CGPoint(x: frame.width, y: frame.height), toCoordinateFrom: self)
-//    }
-//}
+}
