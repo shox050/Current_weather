@@ -13,50 +13,25 @@ class MapViewController: UIViewController {
     
     @IBOutlet private weak var mapView: MKMapView!
     
-    
+    let constants = Constants()
     let mapViewModel = MapViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        mapView.delegate = self
         
         setInitialRegion()
         
-       
-
         
-        let coordinateMSK = CLLocationCoordinate2D(latitude: 55.75222, longitude: 37.61556)
-        
-         let weatherAnnotation = WeatherAnnotation(coordinate: coordinateMSK, title: "wow Moscow", subtitle: "Hello")
-        
-        mapView.addAnnotation(weatherAnnotation)
-//
-//        let pointAnnotation = WeatherPinAnnotation()
-//        pointAnnotation.title = "Moscow99"
-//        pointAnnotation.subtitle = "RUSSIA"
-//        pointAnnotation.coordinate = coordinateMSK
-//        pointAnnotation.pinCustomImageName = "sun"
-//
-//        let pointView = MKPinAnnotationView(annotation: pointAnnotation, reuseIdentifier: "pin")
-//
-//        mapView.addAnnotation(pointView.annotation!)
-        
-//        let weatherAnnotation = WeatherPinAnnotation(title: "Moscow", subtitle: "Russia", coordinate: coordinateMSK)
-        
-//        print("mapView.addAnnotation")
-//        mapView.addAnnotation(weatherAnnotation)
-        
-        ///////// -------------
-        let bbox = mapViewModel.createBbox(mapRect: mapView.visibleMapRect, zoom: 10)
-        mapViewModel.networkService.getCities(inBoundingBox: bbox) { [weak self] response in
-            print("Response ", response)
-
-            switch response {
-            case .success(let weatherWrapper):
-                print("Success, get weatherWrapper")
-                self?.mapViewModel.weatherInformation = weatherWrapper.weatherInformation
-            case .failure(let error):
-                print("Failure: ", error)
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let this = self else { return }
+            
+            this.mapViewModel.getCities(forMapRect: this.mapView.visibleMapRect, zoom: 10) { weatherAnnotations in
+                this.mapView.addAnnotations(weatherAnnotations)
+                
+                DispatchQueue.main.sync {
+                    this.mapView.showAnnotations(this.mapView.annotations, animated: true)
+                }
+                
             }
         }
     }
@@ -65,52 +40,52 @@ class MapViewController: UIViewController {
 
 // MARK: - MKMapViewDelegate
 extension MapViewController: MKMapViewDelegate {
-//    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-//        print("New region: ", mapView.region)
-//    }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard let annotation = annotation as? WeatherAnnotation else { return nil }
         
-        let identifier = "weatherViewAnnotation"
+        let identifier = constants.weatherViewIdentifier
         
-//        let weatherView = WeatherView(frame: CGRect(x: 20, y: 20, width: 20, height: 20))
-//        let image = getImage(with: weatherView)
-//        weatherView.ivImage.image = image
-//        weatherView.lTemperatureInfo.text = "MSK, 29"
+        var view: MKMarkerAnnotationView
         
-        
-        
-        guard let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) else {
-            let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView.image = UIImage(named: "sun")
-            annotationView.canShowCallout = true
-            print("HERE")
-            return annotationView
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView {
+            dequeuedView.annotation = annotation
+            view = dequeuedView
+        } else {
+            view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            view.canShowCallout = false
+//            view.calloutOffset = CGPoint(x: -5, y: 5)
+//            view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         }
         
-        annotationView.annotation = annotation
-        
-        return annotationView
+        return view
     }
+    
+    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        
+    }
+    
+    
 }
 
-// TODO: - need delete this method before release
 extension MapViewController {
-    func setInitialRegion() {
+    private func setInitialRegion() {
         let initialLocation = CLLocation(latitude: 55.75222, longitude: 37.61556)
         let initialDistance: CLLocationDistance = 40000
         let initialRegion = MKCoordinateRegion(center: initialLocation.coordinate, latitudinalMeters: initialDistance, longitudinalMeters: initialDistance)
         mapView.setRegion(initialRegion, animated: true)
     }
     
-    func getImage(with view: UIView) -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0)
-        defer { UIGraphicsEndImageContext() }
-        if let context = UIGraphicsGetCurrentContext() {
-            view.layer.render(in: context)
-            let image = UIGraphicsGetImageFromCurrentImageContext()
-            return image
-        }
-        return nil
-    }
+
+    
+//    private func getImage(with view: UIView) -> UIImage? {
+//        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0)
+//        defer { UIGraphicsEndImageContext() }
+//        if let context = UIGraphicsGetCurrentContext() {
+//            view.layer.render(in: context)
+//            let image = UIGraphicsGetImageFromCurrentImageContext()
+//            return image
+//        }
+//        return nil
+//    }
 }

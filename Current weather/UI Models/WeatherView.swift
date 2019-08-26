@@ -15,11 +15,6 @@ class WeatherView: UIView {
     @IBOutlet weak var lTemperatureInfo: UILabel!
     
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()

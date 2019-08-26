@@ -51,10 +51,12 @@ struct Coordinate: Decodable {
 struct Weather: Decodable {
     let weatherConditionId: Int
     let weatherIcon: String
+    let description: String
     
     private enum CodingKeys: String, CodingKey {
         case weatherConditionId = "id"
         case weatherIcon = "icon"
+        case description
     }
 }
 

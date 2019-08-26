@@ -25,11 +25,8 @@ struct RequestParameters: Encodable {
     
     private enum CodingKeys: String, CodingKey {
         case boundingBoxCoordinate = "bbox"
-        
         case count = "cnt"
-        
         case measurementType = "units"
-        
         case apiKey = "appid"
     }
 }
