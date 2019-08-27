@@ -7,7 +7,17 @@
 //
 
 import Foundation
+import MapKit
 
 struct Constants {
-    let weatherViewIdentifier = "weatherViewAnnotation"
+    struct Identifiers {
+        static let weatherViewAnnotation = "weatherViewAnnotation"
+        static let networkServiceQueue = "networkServiceQueue"
+        static let weatherNibNamed = "WeatherView"
+    }
+    
+    struct Coordinates {
+        static let initialLocation = CLLocation(latitude: 55.75222, longitude: 37.61556)
+        static let initialDistance: CLLocationDistance = 40000
+    }
 }

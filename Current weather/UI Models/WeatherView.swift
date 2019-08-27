@@ -10,9 +10,9 @@ import UIKit
 
 class WeatherView: UIView {
     
-    @IBOutlet weak var contentView: UIView!
-    @IBOutlet weak var ivImage: UIImageView!
-    @IBOutlet weak var lTemperatureInfo: UILabel!
+    @IBOutlet private weak var contentView: UIView!
+    @IBOutlet private weak var ivImage: UIImageView!
+    @IBOutlet private weak var lTemperatureInfo: UILabel!
     
     
     required init?(coder aDecoder: NSCoder) {
@@ -21,7 +21,7 @@ class WeatherView: UIView {
     }
     
     func commonInit() {
-        Bundle.main.loadNibNamed("WeatherView", owner: self, options: nil)
+        Bundle.main.loadNibNamed(Constants.Identifiers.weatherNibNamed, owner: self, options: nil)
         addSubview(contentView)
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]

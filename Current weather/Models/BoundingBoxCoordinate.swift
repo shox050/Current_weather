@@ -12,5 +12,5 @@ import MapKit
 struct BoundingBoxCoordinate {
     let bottomLeftAngle: CLLocationCoordinate2D
     let topRightAngle: CLLocationCoordinate2D
-    let zoom: Int
+    let radius: Int
 }

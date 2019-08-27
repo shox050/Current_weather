@@ -13,7 +13,6 @@ class MapViewController: UIViewController {
     
     @IBOutlet private weak var mapView: MKMapView!
     
-    let constants = Constants()
     let mapViewModel = MapViewModel()
 
     override func viewDidLoad() {
@@ -21,17 +20,23 @@ class MapViewController: UIViewController {
         
         setInitialRegion()
         
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(didDragMap(_:)))
+        panGesture.delegate = self
+        
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(zoomChanged(_:)))
+        pinchGesture.delegate = self
+        
+        mapView.addGestureRecognizer(panGesture)
+        mapView.addGestureRecognizer(pinchGesture)
         
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let this = self else { return }
-            
-            this.mapViewModel.getCities(forMapRect: this.mapView.visibleMapRect, zoom: 10) { weatherAnnotations in
+            this.mapViewModel.getCities(forMapView: this.mapView) { weatherAnnotations in
                 this.mapView.addAnnotations(weatherAnnotations)
                 
                 DispatchQueue.main.sync {
                     this.mapView.showAnnotations(this.mapView.annotations, animated: true)
                 }
-                
             }
         }
     }
@@ -44,7 +49,7 @@ extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard let annotation = annotation as? WeatherAnnotation else { return nil }
         
-        let identifier = constants.weatherViewIdentifier
+        let identifier = Constants.Identifiers.weatherViewAnnotation
         
         var view: MKMarkerAnnotationView
         
@@ -54,38 +59,60 @@ extension MapViewController: MKMapViewDelegate {
         } else {
             view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             view.canShowCallout = false
-//            view.calloutOffset = CGPoint(x: -5, y: 5)
-//            view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         }
         
         return view
     }
-    
-    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-        
+}
+
+// MARK: - UIGestureRecognizerDelegate
+extension MapViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
-    
-    
 }
 
 extension MapViewController {
     private func setInitialRegion() {
-        let initialLocation = CLLocation(latitude: 55.75222, longitude: 37.61556)
-        let initialDistance: CLLocationDistance = 40000
+        let initialLocation = Constants.Coordinates.initialLocation
+        let initialDistance = Constants.Coordinates.initialDistance
         let initialRegion = MKCoordinateRegion(center: initialLocation.coordinate, latitudinalMeters: initialDistance, longitudinalMeters: initialDistance)
         mapView.setRegion(initialRegion, animated: true)
     }
     
-
+    @objc private func didDragMap(_ sender: UIGestureRecognizer) {
+        if sender.state == .ended {
+            DispatchQueue.global(qos: .background).async { [weak self] in
+                guard let this = self else { return }
+                this.mapViewModel.getCities(forMapView: this.mapView) { weatherAnnotations in
+                    this.mapView.addAnnotations(weatherAnnotations)
+                    
+                    DispatchQueue.main.sync {
+                        this.mapView.showAnnotations(this.mapView.annotations, animated: true)
+                    }
+                }
+            }
+        } else {
+            let annotations = mapView.annotations
+            mapView.removeAnnotations(annotations)
+        }
+    }
     
-//    private func getImage(with view: UIView) -> UIImage? {
-//        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0)
-//        defer { UIGraphicsEndImageContext() }
-//        if let context = UIGraphicsGetCurrentContext() {
-//            view.layer.render(in: context)
-//            let image = UIGraphicsGetImageFromCurrentImageContext()
-//            return image
-//        }
-//        return nil
-//    }
+    @objc private func zoomChanged(_ sender: UIGestureRecognizer) {
+        if sender.state == .ended {
+            DispatchQueue.global(qos: .background).async { [weak self] in
+                guard let this = self else { return }
+                this.mapViewModel.getCities(forMapView: this.mapView) { weatherAnnotations in
+                    this.mapView.addAnnotations(weatherAnnotations)
+                    
+                    DispatchQueue.main.sync {
+                        this.mapView.showAnnotations(this.mapView.annotations, animated: true)
+                    }
+                }
+            }
+        } else {
+            let annotations = mapView.annotations
+            mapView.removeAnnotations(annotations)
+        }
+    }
 }
